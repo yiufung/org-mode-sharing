@@ -1,0 +1,542 @@
+#+TITLE: Why Org-mode?
+#+STARTUP: showstars
+
+* What is Org-mode?
+
+From http://orgmode.org:
+
+  Org mode is for keeping notes, maintaining TODO lists, planning
+projects, and authoring documents with a fast and effective plain-text
+system.
+
+But what does it *exactly* provide?
+
+* Fabulous outline mode
+
+org-mode is superb for outlining and structured text.
+
+** Introduction
+
+ Use TAB, and S-TAB to *collapse* and *expand* headings.
+
+ Fast navigation
+ Put cursor at first character of headline. Use speed commands for easy navigation and action
+
+ n: next visible headline
+ p: previous visible headline
+ c: cycle visibility
+ ?: see what else you can do
+
+ Or use your mouse for some of these commands
+
+** Common Operations
+
+*** Change levels easily
+
+ Put cursor on a headline, and use M-right M-left to change the headline level
+
+ Use M-S-right and M-S-left to change all levels in subtrees
+
+ With speed commands
+ r: demote subtree
+ l: promote subtree
+ R: demote subtree and all subsubtrees
+ L: promote subtree and all subsubtrees
+
+*** Rearrange levels easily
+
+ Put cursor on a headline, and use M-up and M-down to change the order of headlines
+
+ With speed commands
+ U: move subtree up
+ D: move subtree down
+
+*** Conclusion
+
+ Org-mode is *very* good at outlines.
+
+* Links to everywhere
+
+Document navigation:
+
+    Any place in the document: [[hide-and-seek]]
+
+    To a subheading: [[*some subsection][*some subsection]].
+
+Somewhere in another file:
+
+    Line 10 in another file: [[file:README.org::10]]
+
+    Heading in another file: [[file:README.org::*Org-mode%20Sharing]]
+
+External links:
+
+    url: http://kitchingroup.cheme.cmu.edu
+
+    open directory with Windows file explorer: [[file:d:/]]
+
+    open directory within Emacs: [[file+emacs:d:/]]
+
+You can even customize your own link styles:
+
+- [[google:Org-mode tutorial]]
+- [[gmap:Fo Tan]]
+- [[openrice:%E8%8A%B1%E5%9C%92%E9%A4%90%E5%BB%B3][openrice:花園餐廳]]
+- [[jira:DEA-325]]
+
+With proper setup, you can also create links to:
+
+- citations
+- emails
+- remote locations: via ftp/ssh...
+
+The sky's the limit!
+
+** some subsection
+
+This is called a "radio target" <<hide-and-seek>>. You can make links to them to jump around quickly.
+
+* Inline images and Equations
+
+You can have images inline, and see them.
+
+[[./images/futurama-cat.png]]
+
+You can put equations in your documents: $\int_0^x \sin x = 0.5$. Solve for $x$.
+
+Toggle them as images: elisp:org-preview-latex-fragment or C-c C-x C-l
+
+Use symbols like \propto, or \alpha, with superscripts like x^2 or subscripts like CH_4. Toggle symbol overlays like this:
+
+elisp:org-toggle-pretty-entities
+
+* Tables
+** Creating tables
+
+So easy. Start with | at the beginning of a line.
+
+Move around and realign your table with TAB and S-TAB,
+
+** Have a table with wide columns?
+
+| number | text                                     |
+|--------+------------------------------------------|
+|      0 | A very long sentence that takes up space |
+|      1 | a short one                              |
+
+Shorten the column for readability with <n>. Want numbers left justified? use <l>
+
+| number | text                                     |
+|--------+------------------------------------------|
+|      0 | A very long sentence that takes up space |
+|      1 | a short one                              |
+
+** Sorting tables
+
+M-x org-table-sort-lines, alphabetically, or numerically, in ascending
+or descending order.
+
+If you do that a lot, remember C-c ^
+
+| y | x | z |
+|---+---+---|
+| 2 | 1 | b |
+| 7 | 2 | c |
+| 2 | 4 | a |
+| 8 | 9 | d |
+
+Don't forget M-arrows to move rows and columns around!
+
+** Delete and add rows and columns
+
+org-table-insert-row      M-S-down
+org-table-kill-row        M-S-up
+org-table-insert-column   M-S-right
+org-table-delete-column   M-S-left
+
+| x    | y |   |
+|------+---+---|
+| test | 2 |   |
+| John | 2 |   |
+| Erin | 7 |   |
+| Andy | 2 |   |
+| Zoe  | 1 |   |
+
+** Convert a region to a table
+
+Have a csv dataset you want to convert to a table: Select it and run M-x org-table-convert-region.
+
+[[https://www.w3schools.com/html/html_tables.asp][W3Schools: HTML Tables]]
+
+If you do this a lot, remember C-c |
+
+And you can add a horizontal line below your cursor with C-c -
+
+| x | y |
+| 1 | 3 |
+| 3 | 4 |
+| 5 | 6 |
+| 7 | 8 |
+| 8 | 9 |
+
+Sum of x is: 
+
+Need to know the sum of a column? Run C-c + on the column, and check the minibuffer. Paste it somewhere with C-y.
+
+** Import a table from a data file
+
+See this file [[file+emacs:data.csv]]
+
+Run M-x org-table-import to insert it here.
+
+** Convert table to LaTeX
+
+Need a quick way to convert a table to LaTeX code?
+
+Highlight the region and run C-c C-e C-b l L to get the LaTeX code
+
+| x    | y |
+|------+---|
+| John | 2 |
+| Erin | 7 |
+| Andy | 2 |
+| Zoe  | 1 |
+
+Want HTML instead?  C-c C-e C-b h H
+
+* Embedded code
+** Execute code blocks in various languages
+
+describing how to add two numbers
+
+#+BEGIN_SRC emacs-lisp
+(+ 7 3)
+#+END_SRC
+
+You can save all STDOUT output during execution:
+
+#+BEGIN_SRC python :results output
+print(77 + 8)
+print("hello world")
+#+END_SRC
+
+Or you can print value that's returned explicitly
+
+#+BEGIN_SRC python :results value
+  return 10
+#+END_SRC
+
+#+BEGIN_SRC R
+sum(c(6, 8))
+#+END_SRC
+
+What, you want inline code? You mean show that 2 + 2 =
+src_emacs-lisp{(+ 32 2)}. Maybe you prefer inline python:
+src_python{return 2 + 2}.
+
+Check out how that exports.
+
+** Use data in a table in code
+
+Tables in org-mode are sources of data. Give a table a name.
+
+#+name: table-data
+| x         | y |
+|-----------+---|
+| John      | 2 |
+| Erin      | 7 |
+| Andy      | 2 |
+| Zoe       | 1 |
+| fred      | 5 |
+| long-nmae | 7 |
+|           |   |
+
+Use it as a variable in a code block:
+
+#+BEGIN_SRC python :results output :var data=table-data
+print(data[0])
+#+END_SRC
+
+We might as well as make a link back to our table [[table-data]]. Go ahead, click on it.
+
+** Make your figures in your document
+
+#+BEGIN_SRC python
+import matplotlib.pyplot as plt
+
+plt.plot([1,2,3,4])
+plt.savefig('./images/silly-plot.png')
+#+END_SRC
+
+#+RESULTS:
+: None
+
+[[./images/silly-plot.png]]
+
+You can toggle inline images if you do want to see them:
+elisp:org-toggle-inline-images
+
+** There are much more language support
+
+The support for editable, executable code blocks is large, and growing.
+
+Some notable ones:
+
+- C/C++
+- Golang
+- perl
+- ruby
+- CSS
+- Fortran
+- Haskell
+- Java
+- JavaScript
+- LaTeX
+- Shell
+- SQL
+- Ruby
+- Scala
+- SQLite
+- etc: https://orgmode.org/worg/org-contrib/babel/languages.html
+
+* Power Export to other formats
+** Org -> HTML
+
+We can launch this in a browser. Of course you can have /italics/, *bold*, _underlined_, =verbatim=, +strike+ and ~code~.
+
+Consider this code block:
+
+#+BEGIN_SRC python
+a = [1, 2, 3, 4]
+b = [x**2 for x in a]
+
+print b
+#+END_SRC
+
+Try it: C-c C-e h o.
+
+Add some spice:
+
+#+BEGIN_SRC org
+  ,#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+#+END_SRC
+
+** Org -> Markdown
+
+Try: C-c C-e g o
+
+** Org -> LaTeX/PDF
+
+Try it C-c C-e l o ([[https://miktex.org/][MiKTeX]] required)
+
+** Org -> Beamer Slides
+
+Try: C-c C-e l O
+
+** Org -> Docx
+
+Try: C-c C-e o O ([[https://www.libreoffice.org/][LibreOffice]] required)
+
+** Many more options..
+
+- [[https://github.com/yjwen/org-reveal][Reveal.js]] slides
+- [[https://orgmode.org/worg/exporters/koma-letter-export.html][KOMA Letter]]
+- bibtex
+
+* Task management [0%]
+org-mode is also phenomenal for task management.
+
+How? TODO, scheduling, deadlines, timing tasks, and agenda.
+
+** prepare this talk
+** give this talk
+** Checkboxes [/]
+- [ ] task 1
+- [ ] task 2
+- [ ] task 3
+
+* Deadlines, timing tasks, and agenda
+** Publish to GitLab
+
+It is easy to change the dates with shift-arrow keys. Put your cursor
+on a part of the data and use S-up and S-down to change the date.
+
+** Finish this talk
+
+Check time spent on this task. 
+
+** Check your agenda
+
+Type C-c a < a to see an agenda for this file.
+
+l to enable org-agenda-log-mode: See how the day goes like
+
+With cursor at beginning of headline:
+< to narrow to headline
+v to create agenda, then press a to get TODO items with deadlines
+* Capture tasks as they come in
+
+- You are working on something, maybe giving a talk
+
+- Suddenly the phone rings, it is the President of the United States
+
+- You want to take notes on the conversation, but you do not want to interrupt your work setup
+
+- Capture to the rescue. Type C-c c
+
+- select the template, fill it out, Type C-c C-c and back to work.
+
+* Tags, Properties and Sparse Trees
+org-mode allows you to tag headlines, and set properties on them.
+
+M-x org-set-tags
+
+Speed commands:
+/ create a sparse tree based on search
+
+Match with:
+- tag
+- todo status
+- date
+
+** DONE 2010 - Spark: Cluster computing with working sets.
+** TODO 2018 - Serverless Computing: One Step Forward, Two Steps Back :cloud:
+** DONE 2009 - Git from the bottom up                                    :vc:
+** DONE 1984 - Identity-based cryptosystems and signature schemes     :crypt:
+** TODO 1994 - Learning Long-term Dependencies with Gradient Descent is Difficult :ml:nn:
+** DONE 2016 - Xgboost: A scalable tree boosting system             :ml:tree:
+* Power of plain text
+
+Everything you see up to this point, is *plain text*: printable
+characters in a form that can be read and understood directly by
+people.
+
+Compare this with a SQLite database: [[file+emacs:./sqlite_sample.db]]
+
+Or a Word file: [[file+emacs:./intro-org-mode.docx]]
+
+What do we do when SQLite/Word is not installed? Or when a few bytes
+is tampered in our file? Can we still access our infomation?
+
+#+BEGIN_QUOTE
+The problem with most binary formats is that the context necessary to
+understand the data is separate from the data itself
+#+END_QUOTE
+
+*Keep Knowledge in Plain Text*
+- First advice from chapter "Basic Tools" of [[https://www.nceclusters.no/globalassets/filer/nce/diverse/the-pragmatic-programmer.pdf][The Pragmatic Programmer]]
+
+#+BEGIN_QUOTE
+Human-readable forms of data, and self-describing data, will outlive
+all other forms of data and the applications that created
+them. Period.
+#+END_QUOTE
+
+Org-mode is +perhaps+ the most feature-full plain-text system one can
+dream of, making it a suitable tool for building personal knowledge
+base for a lifetime:
+
+- [[https://github.com/Kungsgeten/org-brain][Org-brain]]
+- [[https://github.com/caiorss/org-wiki][Org-wiki]]
+
+* Want to try it yourself?
+
+Start with some pre-configured Emacs distribution: 
+
+- Scimax: Tailored to for scientific programming and publishing
+  https://github.com/jkitchin/scimax
+- Prelude: https://github.com/bbatsov/prelude
+
+Or, simply copy the [[minimal-setup]] below. 
+
+What's shown here is a mere subset of Org-mode. Want to know more
+about it?
+
+- [[https://www.youtube.com/watch?v=oJTwQvgfgMM][Carsten Dominik - Google Tech Talks on Emacs Orgmode]] (from Org-mode author)
+- [[https://www.youtube.com/watch?v=dljNabciEGg][Howard Abrams - Literate DevOps with Emacs]]
+- [[https://github.com/novoid/org-mode-workshop][More hands-on examples on novoid/org-mode-workshop]]
+- [[https://www.youtube.com/watch?v=fgizHHd7nOo][John Kitchin - org mode is awesome]] (origin of this presentation)
+- [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][Rainer König's Org-mode Tutorial]]
+
+* COMMENT Minimal setup
+
+Copy below code to =init.el= and you're done.
+
+#+name: minimal-setup
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives
+	       '("melpa" . "https://melpa.org/packages/"))
+  (package-initialize)
+
+  ;; Bootstrap `use-package'
+  (setq-default use-package-always-ensure t ; Auto-download package if not exists
+		use-package-always-defer t ; Always defer load package to speed up startup
+		use-package-verbose nil ; Don't report loading details
+		use-package-expand-minimally t  ; make the expanded code as minimal as possible
+		use-package-enable-imenu-support t) ; Let imenu finds use-package definitions
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (eval-when-compile
+    (require 'use-package))
+
+  (use-package counsel
+    :ensure t
+    :ensure ivy-rich
+    :bind ("C-s" . swiper)
+    :config
+    (ivy-mode 1)
+    (ivy-rich-mode 1)
+    (counsel-mode 1)
+    )
+
+  (use-package org
+    :ensure nil
+    :ensure ox-gfm
+    :bind (("C-c a" . org-agenda)
+	   ("C-c c" . counsel-org-capture)
+	   ("C-c l" . org-store-link)
+	   :map org-mode-map
+	   ("C-c C-j" . counsel-org-goto))
+    :config
+    (require 'ox-gfm) ;; GitHub Flavored Markdown
+    (setq org-use-speed-commands t)
+
+    ;; Org export to doc
+    (setq org-odt-preferred-output-format "docx"
+	  org-odt-fontify-srcblocks t)
+
+    ;; Enable link abbreviation
+    (setq org-link-abbrev-alist '(
+				  ("google"    . "http://www.google.com/search?q=")
+				  ("gmap"      . "http://maps.google.com/maps?q=%s")
+				  ("openrice"  . "https://www.openrice.com/en/hongkong/restaurants?what=%h")
+				  ("jira"  . "https://asw-global-digital-transformation.atlassian.net/browse/%h")
+				  ("youtube" . "https://www.youtube.com/results?search_query=%s")))
+
+    ;; Don't prompt before running code in org
+    (setq org-confirm-babel-evaluate nil)
+
+    ;; org-babel
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((ipython    . t)
+       (emacs-lisp . t)
+       (R          . t)
+       (haskell    . t)
+       (python     .t)
+       (org        .t)
+       (dot        .t)
+       (sql        .t)
+       (http       . t)
+       (latex      . t)
+       (js         . t)
+       (shell      . t)
+       ))
+
+    )
+#+END_SRC
+
+#+RESULTS:
+: counsel-org-goto

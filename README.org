@@ -1,0 +1,33 @@
+* Org-mode Sharing
+
+I was lucky enough to talk about Org-mode at my company's sharing
+session. This repo contains all information I collected and is most
+useful to anyone interested in sharing the great tool to his
+colleagues/friends interactively.
+
+It's an extension to [[https://www.youtube.com/watch?v=fgizHHd7nOo][John Kitchin's video - Org mode is awesome]]. Some
+errors due to Org version change are fixed, and more contents added:
+
+- export to docx/GitHub-flavor markdown
+- sparse tree example for academic reading
+- why plain text matters
+- some more pointers to useful resources
+
+You may download John's original file [[http://kitchingroup.cheme.cmu.edu/blog/2014/07/12/Org-mode-is-awesome/][here]].
+
+** Prerequisites
+
+ - Emacs 26.2 / Org-mode 9.1.9
+ - (Windows) [[https://miktex.org/][MiKTeX]] required for LaTeX/PDF output
+ - [[https://www.libreoffice.org/][LibreOffice]] required for Org -> docx conversion
+
+** Notes for presenter
+
+ 1. Start vanilla Emacs (init file is *not* required), load basic setup
+    by executing code block [[file:intro-org-mode.org::minimal-setup][#minimal-setup]]
+ 2. (Optional) Clock in [[file:intro-org-mode.org::*Finish%20this%20talk][#Finish this talk]]
+    before starting presentation
+ 3. ~M-x org-present-mode~.
+
+ Thanks to all my colleagues who have been bearing me with my constant
+ mentions of "Emacs" and "Org-mode" :)
